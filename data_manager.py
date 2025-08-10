@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, text
+from flask import abort
 from models import db, User, Movie
 
 
@@ -10,13 +11,17 @@ class DataManager:
     def create_user(self, name):
         with self.engine.connect() as connection:
             try:
-                connection.execute(text(
-                    "INSERT INTO users(name) "
-                    "VALUES (:name)"),
-                    {"name":name}
-                )
-                connection.commit()
-                print(f"User {name} added successfully.")
+                if not self.find_user(name):
+
+                    connection.execute(text(
+                        "INSERT INTO users(name) "
+                        "VALUES (:name)"),
+                        {"name":name}
+                    )
+                    connection.commit()
+                    print(f"User {name} added successfully.")
+                else:
+                    raise ValueError(f"{name} already in Database. Please choose a different name.")
             except Exception as e:
                 print(f"Something went wrong: {e}")
 
@@ -24,10 +29,51 @@ class DataManager:
     def get_users(self):
         with self.engine.connect() as connection:
             result = connection.execute(text(
-                "SELECT name FROM users")
+                "SELECT id, name FROM users")
                 )
             users = result.fetchall()
-            return [row[0] for row in users]
+            # This List will contain the objects of User
+            user_object_list = []
+
+            for row in users:
+                user = User()
+                user.id = row[0]
+                user.name = row[1]
+                user_object_list.append(user)
+            return user_object_list
+
+
+    def get_user(self,id):
+        with self.engine.connect() as connection:
+            query = text("""
+                    SELECT id, name FROM users
+                    WHERE id = :id
+                    """)
+            query_key = {"id":id}
+            result = connection.execute(query, query_key)
+            row = result.fetchone()
+            if row:
+                user = User()
+                user.id, user.name = row[0], row[1]
+                return user
+            else:
+                abort(404, description=f"User with ID {id} not found.")
+
+
+    def find_user(self, name):
+        with self.engine.connect() as connection:
+            query = text("""
+            SELECT name FROM users
+            WHERE name = :name
+            """)
+            query_key = {"name": name}
+            result = connection.execute(query,query_key)
+            # Check if user already exist in database
+            row = result.fetchone()
+            if row:
+                return True
+            return False
+
 
 
     def get_movies(self, user_id):
@@ -116,3 +162,23 @@ class DataManager:
                     raise ValueError(f"Movie {movie.name} not found in database.")
             except Exception as e:
                 print(f"Something went wrong: {e}")
+
+
+    def generate_fake_users(self):
+        """
+        This function helps generating fake users to have a working/testing set
+        """
+        with self.engine.connect() as connection:
+            query = text("""
+                INSERT INTO users (name) VALUES
+                ('Alice Johnson'),
+                ('Bob Williams'),
+                ('Charlie Brown'),
+                ('Diana Miller'),
+                ('Eva Davis'),
+                ('Frank Wilson'),
+                ('Grace Moore');
+                """)
+            connection.execute(query)
+            connection.commit()
+            print("⛏✡ Test-Users added! ✡⛏")
