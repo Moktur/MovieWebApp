@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Userlist</h1>
+<ul class="user-list">
+    {% for user in users%}
+
+    <li class="user-entry">
+        <a href="{{ url_for('get_movies', user_id=user.id) }}" class="btn"> {{ user.name}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<form method="POST" action="{{ url_for('create_user') }}"> <label for="user_name">Add User</label>
+    <input type="text" name="user_name" id="user_name" required>
+    <button type="submit">Add User</button>>
+</form>
+{% endblock %}
