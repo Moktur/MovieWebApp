@@ -89,7 +89,7 @@ class DataManager:
                 movie = Movie()
                 movie.id = row[0]
                 movie.name = row[1]
-                movie.director: row[2]
+                movie.director = row[2]
                 movie.year = row[3]
                 movie.poster_url = row[4]
                 movies.append(movie)
@@ -166,21 +166,19 @@ class DataManager:
                 print(f"Something went wrong: {e}")
 
 
+
     def generate_fake_users(self):
-        """
-        This function helps generating fake users to have a working/testing set
-        """
-        with self.engine.connect() as connection:
-            query = text("""
-                INSERT INTO users (name) VALUES
-                ('Alice Johnson'),
-                ('Bob Williams'),
-                ('Charlie Brown'),
-                ('Diana Miller'),
-                ('Eva Davis'),
-                ('Frank Wilson'),
-                ('Grace Moore');
-                """)
-            connection.execute(query)
-            connection.commit()
-            print("⛏✡ Test-Users added! ✡⛏")
+        """Add test users via SQLAlchemy session with Vietnamese historical figures"""
+        stmt = text("""
+            INSERT INTO users (name) VALUES
+            ('Nguyễn Trãi'),
+            ('Trần Hưng Đạo'),
+            ('Lê Lợi'),
+            ('Nguyễn Thị Minh Khai'),
+            ('Phan Bội Châu'),
+            ('Nguyễn Huệ'),
+            ('Võ Nguyên Giáp')
+        """)
+        db.session.execute(stmt)
+        db.session.commit()
+        print("⛏✡ Test-Users added! ✡⛏")
