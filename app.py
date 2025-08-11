@@ -9,10 +9,12 @@ app = Flask(__name__)
 DB_URL = "sqlite:////home/pepe/PycharmMiscProjects/movieprojectflasksqlalchemy/data/moviewebapp.sqlite"
 engine = create_engine(DB_URL, echo=False)
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+app.config['SECRET_KEY'] = 'eine_sehr_lange_zufaellige_zeichenkette'
 # linking database and app, reason why we need import models from db
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
 
 data_manager = DataManager(DB_URL)
 
@@ -56,7 +58,8 @@ def add_movie(user_id):
         usermovielist = data_manager.get_movies(user_id)
         for movie in usermovielist:
             if name == movie.name:
-                return flash(NameError, "Movie already in Database")
+                flash("Movie already in Database", "error")
+                return redirect(url_for('get_movies', user_id=user_id))
         moviedata = fetch_data(name)
         if moviedata:
             movie = Movie()
@@ -66,8 +69,31 @@ def add_movie(user_id):
             movie.poster_url = moviedata["Poster"]
             movie.user_id = user_id
             data_manager.add_movie(movie)
-            return redirect(url_for(get_movies))
+            return redirect(url_for('get_movies', user_id=user_id))
+        else:
+            flash(f"Error finding Movie!")
+            return redirect(url_for('get_movies', user_id=user_id))
 
+
+@app.route('/users/<int:user_id>/movies/<int:movie_id>/update', methods=['POST'])
+def update_movie(user_id, movie_id):
+    if request.method == 'POST':
+        name = request.form.get("title")
+        # implementatin for future
+        # year = request.form["year"]
+        if name:
+            data_manager.update_movie(movie_id, name)
+            return redirect(url_for('get_movies', user_id=user_id))
+
+
+@app.route('/users/<int:user_id>/movies/<int:movie_id>/delete', methods=['POST'])
+def delete_movie(user_id, movie_id):
+    if request.method == 'POST':
+        if data_manager.delete_movie(movie_id):
+            return redirect(url_for('get_movies', user_id=user_id))
+        else:
+            flash("Due Deleting, something went wrong")
+            return redirect(url_for('get_movies', user_id=user_id))
 
 
 @app.errorhandler(404)
@@ -79,6 +105,9 @@ def page_not_found(error):
         error_description=error.description if \
         hasattr(error,"description") else \
         "The page you requested does not exist."), 404
+
+
+
 
 
 @app.errorhandler(403)
