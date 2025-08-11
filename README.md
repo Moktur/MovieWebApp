@@ -6,7 +6,7 @@ Eine einfache Flask-Webapp zur Verwaltung persönlicher Lieblingsfilme pro User,
 
 ## Features
 
-- Benutzer anlegen und auflisten
+- Benutzer anlegen und auflisten (Achtung: Es ist nur ein Benutzername mit demselben Namen möglich!)
 - Lieblingsfilme hinzufügen, bearbeiten und löschen
 - Filmdaten (Titel, Regisseur, Jahr, Poster) werden von OMDb API geladen
 - SQLite Datenbank mit SQLAlchemy ORM

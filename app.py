@@ -36,8 +36,12 @@ def create_user():
     """Create a new user from form data and redirect to index."""
     if request.method == 'POST':
         name = request.form['user_name']
-        data_manager.create_user(name)
+        if not data_manager.find_user(name):
+            data_manager.create_user(name)
+            return redirect(url_for('index'))
+        flash(f"User '{name}' already in Database!", "error")
         return redirect(url_for('index'))
+
 
 
 @app.route('/users/<int:user_id>/movies', methods=['GET'])
