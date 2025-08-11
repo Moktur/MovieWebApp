@@ -16,18 +16,16 @@ app.config['SECRET_KEY'] = 'eine_sehr_lange_zufaellige_zeichenkette'
 
 data_manager = DataManager(DB_URL)
 
-# linking database and app, reason why we need import models from db
+# Link database and app
 db.init_app(app)
 with app.app_context():
     db.create_all()
     # data_manager.generate_fake_users()
 
 
-
-
-
 @app.route('/')
 def index():
+    """Render the index page with a list of users."""
     users = data_manager.get_users()
     print(f"Users found: {users}")
     return render_template("index.html", users=users)
@@ -35,14 +33,23 @@ def index():
 
 @app.route('/add_user', methods=['POST'])
 def create_user():
+    """Create a new user from form data and redirect to index."""
     if request.method == 'POST':
         name = request.form['user_name']
         data_manager.create_user(name)
         return redirect(url_for('index'))
 
 
-@app.route('/users/<int:user_id>/movies', methods= ['GET'])
+@app.route('/users/<int:user_id>/movies', methods=['GET'])
 def get_movies(user_id):
+    """Display movies for a specific user.
+
+    Args:
+        user_id (int): The ID of the user.
+
+    Raises:
+        404: If the user is not found.
+    """
     user = data_manager.get_user(user_id)
     if user:
         usermovielist = data_manager.get_movies(user_id)
@@ -50,15 +57,18 @@ def get_movies(user_id):
             "movies.html",
             usermovielist=usermovielist,
             user=user
-            )
-    # if user is None
+        )
     abort(404, description="User not found")
 
 
 @app.route('/users/<int:user_id>/movies', methods=['POST'])
 def add_movie(user_id):
+    """Add a movie to a user's collection.
+
+    Args:
+        user_id (int): The ID of the user.
+    """
     if request.method == 'POST':
-        # check if movie already exist
         name = request.form["title"]
         usermovielist = data_manager.get_movies(user_id)
         for movie in usermovielist:
@@ -83,10 +93,14 @@ def add_movie(user_id):
 
 @app.route('/users/<int:user_id>/movies/<int:movie_id>/update', methods=['POST'])
 def update_movie(user_id, movie_id):
+    """Update a movie's details for a user.
+
+    Args:
+        user_id (int): The ID of the user.
+        movie_id (int): The ID of the movie.
+    """
     if request.method == 'POST':
         name = request.form.get("title")
-        # implementatin for future
-        # year = request.form["year"]
         if name:
             data_manager.update_movie(movie_id, name)
             return redirect(url_for('get_movies', user_id=user_id))
@@ -94,6 +108,12 @@ def update_movie(user_id, movie_id):
 
 @app.route('/users/<int:user_id>/movies/<int:movie_id>/delete', methods=['POST'])
 def delete_movie(user_id, movie_id):
+    """Delete a movie from a user's collection.
+
+    Args:
+        user_id (int): The ID of the user.
+        movie_id (int): The ID of the movie.
+    """
     if request.method == 'POST':
         if data_manager.delete_movie(movie_id):
             return redirect(url_for('get_movies', user_id=user_id))
@@ -104,38 +124,28 @@ def delete_movie(user_id, movie_id):
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """Render custom 404 error page."""
     return render_template(
         "error.html",
         error_code=404,
         error_name="Page Not Found",
         error_description=error.description if \
-        hasattr(error,"description") else \
-        "The page you requested does not exist."), 404
-
-
-
+        hasattr(error, "description") else \
+        "The page you requested does not exist."
+    ), 404
 
 
 @app.errorhandler(403)
 def forbidden(error):
+    """Render custom 403 forbidden page."""
     return render_template(
         "error.html",
         error_code=403,
         error_name="Forbidden",
-        error_description=error.description if\
+        error_description=error.description if \
         hasattr(error, 'description') else \
-        "You do not have permission to view this page."), 403
-# def get_information_for_all_movies(movielist):
-#     movie_object_list = []
-#     for movie in movielist:
-
-#         movie = Movie()
-#         data = fetch_data(movie)
-#         movie.name = data["Title"]
-#         movie.year = data["Year"]
-#         movie.director = data["Director"]
-#         movie.poster_url = data["Poster"]
-
+        "You do not have permission to view this page."
+    ), 403
 
 
 if __name__ == '__main__':
