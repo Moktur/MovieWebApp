@@ -10,16 +10,18 @@ DB_URL = "sqlite:////home/pepe/PycharmMiscProjects/movieprojectflasksqlalchemy/d
 engine = create_engine(DB_URL, echo=False)
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SECRET_KEY'] = 'eine_sehr_lange_zufaellige_zeichenkette'
+
+data_manager = DataManager(DB_URL)
+
 # linking database and app, reason why we need import models from db
 db.init_app(app)
 with app.app_context():
     db.create_all()
+    # data_manager.generate_fake_users()
 
 
-data_manager = DataManager(DB_URL)
 
 
-# data_manager.generate_fake_users()
 
 @app.route('/')
 def index():
@@ -58,7 +60,7 @@ def add_movie(user_id):
         usermovielist = data_manager.get_movies(user_id)
         for movie in usermovielist:
             if name == movie.name:
-                flash("Movie already in Database", "error")
+                flash(f"Movie '{movie.name}' already in Database!", "error")
                 return redirect(url_for('get_movies', user_id=user_id))
         moviedata = fetch_data(name)
         if moviedata:
@@ -69,9 +71,10 @@ def add_movie(user_id):
             movie.poster_url = moviedata["Poster"]
             movie.user_id = user_id
             data_manager.add_movie(movie)
+            flash(f"Movie '{movie.name}' added successfully!", "success")
             return redirect(url_for('get_movies', user_id=user_id))
         else:
-            flash(f"Error finding Movie!")
+            flash(f"Can't find Movie", "error")
             return redirect(url_for('get_movies', user_id=user_id))
 
 
