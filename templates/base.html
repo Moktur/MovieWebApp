@@ -5,20 +5,36 @@
     <meta charset="UTF-8">
     <title>Movie App</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </HEAD>
 
 <body>
-    <nav>
-        <div class="" container">
-            <a href="/" class="logo">🎬 MovieApp</a>
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">
+            <div class="flash-message">{{ message }}</div>
+            <span class="close-btn" onclick="this.parentElement.style.display='none'">×</span>
         </div>
-    </nav>
-    <main class="container">
-        {% block content %}{% endblock %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <main>
+        <nav>
+            <div class="" container">
+                <a href="/" class="logo">🎬 MovieApp</a>
+            </div>
+        </nav>
+        <main class="container">
+            {% block content %}{% endblock %}
 
+        </main>
     </main>
-
 
 </body>
 
