@@ -1,0 +1,352 @@
+/* Early 2000s Webdesign mit vietnamesischen Farben - Ohne Verläufe */
+body {
+    background-color: #f0f0f0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f0f0f0"/><path d="M0,50 L100,50" stroke="%23ff0000" stroke-width="2" stroke-dasharray="5,5"/></svg>');
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border: 3px solid #ff0000;
+    /* Kräftiges Rot */
+    padding: 15px;
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+h1 {
+    color: #ff0000;
+    /* Kräftiges Rot */
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    text-align: center;
+    background-color: #ffff00;
+    /* Kräftiges Gelb */
+    padding: 10px;
+    margin: 0 0 15px 0;
+    border-bottom: 3px double #ff0000;
+}
+
+nav {
+    background: #ff0000;
+    /* Kräftiges Rot */
+    padding: 12px;
+    margin-bottom: 20px;
+    border-bottom: 5px solid #ffff00;
+    /* Kräftiges Gelb */
+}
+
+.logo {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 32px;
+    color: #ffff00;
+    /* Kräftiges Gelb */
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.user-entry {
+    background-color: #ffff00;
+    /* Kräftiges Gelb */
+    border: 2px solid #ff0000;
+    /* Kräftiges Rot */
+    margin: 8px 0;
+    padding: 12px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.user-entry a {
+    display: block;
+    text-decoration: none;
+    color: #00cc00;
+    /* Kräftiges Grün - sichtbar auf beiden Hintergründen */
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.user-entry:hover {
+    background-color: #ff0000;
+    /* Kräftiges Rot */
+    border-color: #ffff00;
+    /* Kräftiges Gelb */
+}
+
+/* Text bleibt immer grün! */
+.user-entry:hover a {
+    color: #00cc00;
+    /* Beibehalten der grünen Farbe */
+}
+
+/* Button Styling - Eckig und einheitlich ohne Verläufe */
+.btn,
+.btn-small,
+.btn-danger,
+button[type="submit"] {
+    display: inline-block;
+    background-color: #ffff00;
+    /* Kräftiges Gelb */
+    color: #ff0000;
+    /* Kräftiges Rot */
+    text-align: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #ff0000;
+    /* Kräftiges Rot */
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    min-width: 120px;
+    height: 45px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+/* Spezifische Stile für kleine Buttons */
+.btn-small {
+    padding: 8px 15px;
+    font-size: 14px;
+    min-width: 100px;
+    height: 36px;
+}
+
+/* Gefahren-Button (Delete) */
+.btn-danger {
+    background-color: #ffff00;
+    /* Kräftiges Gelb */
+    color: #ff0000;
+    /* Kräftiges Rot */
+    border-color: #ff0000;
+}
+
+/* Hover-Effekte für alle Buttons */
+.btn:hover,
+.btn-small:hover,
+.btn-danger:hover,
+button[type="submit"]:hover {
+    background-color: #ff0000;
+    /* Kräftiges Rot */
+    color: #ffff00;
+    /* Kräftiges Gelb */
+    border-color: #ffff00;
+    /* Kräftiges Gelb */
+}
+
+/* Back-Link als Button */
+.back-link {
+    display: inline-block;
+    background-color: #ffff00;
+    /* Kräftiges Gelb */
+    color: #ff0000;
+    /* Kräftiges Rot */
+    padding: 12px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #ff0000;
+    /* Kräftiges Rot */
+    cursor: pointer;
+    min-width: 120px;
+    height: 45px;
+    text-align: center;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #ff0000;
+    /* Kräftiges Rot */
+    color: #ffff00;
+    /* Kräftiges Gelb */
+    border-color: #ffff00;
+    /* Kräftiges Gelb */
+}
+
+/* Formular-Styling */
+form {
+    margin: 15px 0;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #ff0000;
+    /* Kräftiges Rot */
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 8px;
+    font-size: 14px;
+    border: 2px inset #ff0000;
+    /* Kräftiges Rot */
+    background-color: #ffffe0;
+    /* Hellgelb */
+}
+
+/* GROSSES UPDATE-FELD */
+.card input[type="text"] {
+    width: 95%;
+    padding: 8px;
+    margin: 8px 0;
+    font-size: 16px;
+    border: 2px inset #ff0000;
+    /* Kräftiges Rot */
+    background-color: #ffffe0;
+    /* Hellgelb */
+}
+
+/* Movie Cards */
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.card {
+    width: 250px;
+    background: #fff;
+    border: 3px groove #ff0000;
+    /* Kräftiges Rot */
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 3px 3px 8px #ccc;
+}
+
+.movie-poster {
+    max-width: 100%;
+    border: 1px solid #ff0000;
+    /* Kräftiges Rot */
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    color: #ff0000;
+    /* Kräftiges Rot */
+    margin-top: 0;
+    border-bottom: 1px dotted #ff0000;
+    /* Kräftiges Rot */
+    padding-bottom: 5px;
+}
+
+/* Update-Formular in Cards */
+.inline-form {
+    margin: 10px 0;
+}
+
+/* Flash-Nachrichten - Größere Version */
+.flash-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 500px;
+    font-size: 18px;
+}
+
+.flash {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    animation: slideIn 0.3s, fadeOut 0.5s 4.5s;
+    font-size: 1.1em;
+    line-height: 1.5;
+    min-width: 300px;
+}
+
+.flash-error {
+    background-color: #ffebee;
+    border-left: 6px solid #ff0000;
+    /* Kräftiges Rot */
+    color: #ff0000;
+    /* Kräftiges Rot */
+}
+
+.flash-success {
+    background-color: #e8f5e9;
+    border-left: 6px solid #00aa00;
+    /* Grün für Erfolg */
+    color: #008800;
+    /* Dunkleres Grün */
+}
+
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    color: inherit;
+}
+
+.flash-message {
+    font-size: 1.2em;
+    margin-right: 30px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .flash-container {
+        left: 20px;
+        right: 20px;
+        max-width: 100%;
+    }
+
+    .flash {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    input[type="text"] {
+        width: 95%;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
