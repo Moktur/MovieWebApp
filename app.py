@@ -3,10 +3,13 @@ from data_manager import DataManager
 from models import db, Movie, User
 from sqlalchemy import create_engine
 from movie_data_fetcher import fetch_data
+from pathlib import Path
 
 app = Flask(__name__)
+BASE_DIR = Path(__file__).parent.resolve()
+db_path = BASE_DIR / 'data' / 'moviewebapp.sqlite'
 
-DB_URL = "sqlite:////home/pepe/PycharmMiscProjects/movieprojectflasksqlalchemy/data/moviewebapp.sqlite"
+DB_URL = f"sqlite:///{db_path}"
 engine = create_engine(DB_URL, echo=False)
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SECRET_KEY'] = 'eine_sehr_lange_zufaellige_zeichenkette'
