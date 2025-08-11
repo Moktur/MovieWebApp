@@ -80,19 +80,20 @@ class DataManager:
         """Retrieve all movies from the database from a specific user."""
         with self.engine.connect() as connection:
             query = text("""
-                SELECT name, director, year, poster_url FROM movies
+                SELECT id, name, director, year, poster_url FROM movies
                 WHERE user_id= :user_id
                 """)
             result = connection.execute(query, {"user_id": user_id})
-            movies = result.fetchall()
-            return [
-                    {
-                    'name': row[0],
-                    'director': row[1],
-                    'year': row[2],
-                    'poster_url': row[3]
-                    } for row in movies
-                ]
+            movies = []
+            for row in result.fetchall():
+                movie = Movie()
+                movie.id = row[0]
+                movie.name = row[1]
+                movie.director: row[2]
+                movie.year = row[3]
+                movie.poster_url = row[4]
+                movies.append(movie)
+            return movies
 
 
     def add_movie(self, movie): # NOTE movie ist ein Objekt
@@ -147,19 +148,20 @@ class DataManager:
             print(f"Something went wrong!: {e}")
 
 
-    def delete_movie(self, movie):
+    def delete_movie(self, movie_id):
         with self.engine.connect() as connection:
             try:
                 query = text("""
                     DELETE FROM movies
                     WHERE id = :id
                     """)
-                query_key = {"id":movie.id}
+                query_key = {"id":movie_id}
                 result = connection.execute(query, query_key).rowcount
                 if result == 1:
                     connection.commit()
+                    return True
                 if result <= 0:
-                    raise ValueError(f"Movie {movie.name} not found in database.")
+                    raise ValueError(f"Movie {movie_id} not found in database.")
             except Exception as e:
                 print(f"Something went wrong: {e}")
 
