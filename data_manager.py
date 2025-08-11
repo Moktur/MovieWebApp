@@ -14,6 +14,7 @@ class DataManager:
         """
         self.engine = create_engine(db_url)
 
+
     def create_user(self, name):
         """Create a new user in the database.
 
@@ -37,6 +38,7 @@ class DataManager:
             except Exception as e:
                 print(f"Something went wrong: {e}")
 
+
     def get_users(self):
         """Retrieve all users from the database.
 
@@ -54,6 +56,7 @@ class DataManager:
                 user.name = row[1]
                 user_object_list.append(user)
             return user_object_list
+
 
     def get_user(self, id):
         """Retrieve a user by ID.
@@ -78,6 +81,7 @@ class DataManager:
             else:
                 abort(404, description=f"User with ID {id} not found.")
 
+
     def find_user(self, name):
         """Check if a user exists in the database.
 
@@ -91,6 +95,7 @@ class DataManager:
             query = text("SELECT name FROM users WHERE name = :name")
             result = connection.execute(query, {"name": name})
             return result.fetchone() is not None
+
 
     def get_movies(self, user_id):
         """Retrieve all movies for a specific user.
@@ -117,6 +122,7 @@ class DataManager:
                 movies.append(movie)
             return movies
 
+
     def add_movie(self, movie):
         """Add a new movie to the database.
 
@@ -141,6 +147,7 @@ class DataManager:
                 print(f"Movie {movie} added successfully.")
             except Exception as e:
                 print(f"Something went wrong: {e}")
+
 
     def update_movie(self, movie_id, new_title):
         """Update the title of a movie.
@@ -168,6 +175,7 @@ class DataManager:
         except Exception as e:
             print(f"Something went wrong!: {e}")
 
+
     def delete_movie(self, movie_id):
         """Delete a movie from the database.
 
@@ -191,6 +199,7 @@ class DataManager:
                     raise ValueError(f"Movie {movie_id} not found in database.")
             except Exception as e:
                 print(f"Something went wrong: {e}")
+
 
     def generate_fake_users(self):
         """Insert predefined test users into the database."""

@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, abort
-from data_manager import DataManager
-from models import db, Movie, User
+from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from sqlalchemy import create_engine
-from movie_data_fetcher import fetch_data
 from pathlib import Path
+from data_manager import DataManager
+from models import db, Movie
+from movie_data_fetcher import fetch_data
 
 app = Flask(__name__)
 BASE_DIR = Path(__file__).parent.resolve()
@@ -117,9 +117,9 @@ def delete_movie(user_id, movie_id):
     if request.method == 'POST':
         if data_manager.delete_movie(movie_id):
             return redirect(url_for('get_movies', user_id=user_id))
-        else:
-            flash("Due Deleting, something went wrong")
-            return redirect(url_for('get_movies', user_id=user_id))
+
+    flash("Due Deleting, something went wrong")
+    return redirect(url_for('get_movies', user_id=user_id))
 
 
 @app.errorhandler(404)
