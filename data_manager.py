@@ -58,11 +58,11 @@ class DataManager:
             return user_object_list
 
 
-    def get_user(self, id):
+    def get_user(self, user_id):
         """Retrieve a user by ID.
 
         Args:
-            id (int): User ID.
+            user_id (int): User ID.
 
         Returns:
             User: User object.
@@ -71,15 +71,15 @@ class DataManager:
             werkzeug.exceptions.NotFound: If the user is not found.
         """
         with self.engine.connect() as connection:
-            query = text("SELECT id, name FROM users WHERE id = :id")
-            result = connection.execute(query, {"id": id})
+            query = text("SELECT id, name FROM users WHERE id = :user_id")
+            result = connection.execute(query, {"user_id": user_id})
             row = result.fetchone()
             if row:
                 user = User()
                 user.id, user.name = row[0], row[1]
                 return user
             else:
-                abort(404, description=f"User with ID {id} not found.")
+                abort(404, description=f"User with ID {user_id} not found.")
 
 
     def find_user(self, name):
@@ -195,8 +195,7 @@ class DataManager:
                 if result == 1:
                     connection.commit()
                     return True
-                else:
-                    raise ValueError(f"Movie {movie_id} not found in database.")
+                raise ValueError(f"Movie {movie_id} not found in database.")
             except Exception as e:
                 print(f"Something went wrong: {e}")
 

@@ -7,7 +7,7 @@ from movie_data_fetcher import fetch_data
 
 app = Flask(__name__)
 BASE_DIR = Path(__file__).parent.resolve()
-db_path = BASE_DIR / 'data' / 'moviewebapp.sqlite'
+db_path = BASE_DIR.joinpath("data", "moviewebapp.sqlite")
 
 DB_URL = f"sqlite:///{db_path}"
 engine = create_engine(DB_URL, echo=False)
